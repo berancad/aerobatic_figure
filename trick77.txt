@@ -1,0 +1,58 @@
+# to use the airshow put the file on your microSD in the root
+# directory with name trickNN.txt where NN is the command ID you want
+# to assign. The trick can then be used in auto missions or in
+# TRIKn_ID commands for tricks on a switch
+
+# you can use name: to give your sequence a name
+name: BerezinAirShow
+
+function square_loop(radius, height, arg3, arg4)   -- square   
+   local h = height - (2 * radius)
+   local side = h / math.cos(math.rad(45))   
+   local base = (2 * (h + radius)) - 2 * radius
+   return make_paths("square_loop", {
+            { path_straight(base * 1/5),                   roll_angle(180) },
+            { path_straight(base * 2/5),                   roll_angle(0) },         
+            { path_vertical_arc(radius, 90) ,              roll_angle(0) },
+            { path_straight(side*2/9),                     roll_angle(0) },
+            { path_straight(side*2/9),                     roll_angle(90) },
+            { path_straight(side*1/9),                     roll_angle(0) },
+            { path_straight(side*2/9),                     roll_angle(90) },
+            { path_straight(side*2/9),                     roll_angle(0) },
+            { path_vertical_arc(radius, 90),               roll_angle(0) },
+            { path_straight(side*2/9),                     roll_angle(0) },
+            { path_straight(side*2/9),                     roll_angle(90) },
+            { path_straight(side*1/9),                     roll_angle(0) },
+            { path_straight(side*2/9),                     roll_angle(90) },
+            { path_straight(side*2/9),                     roll_angle(0) },
+            { path_vertical_arc(radius, 90),               roll_angle(0) },
+            { path_straight(base * 2/5),                   roll_angle(0) }, 
+            { path_straight(base * 1/5),                   roll_angle(180) },
+            { path_straight(base * 2/5),                   roll_angle(0) },  
+	    { path_vertical_arc(radius, 90),               roll_angle(0) },
+            { path_straight(side*2/9),                     roll_angle(0) },
+            { path_straight(side*2/9),                     roll_angle(90) },
+            { path_straight(side*1/9),                     roll_angle(0) },
+            { path_straight(side*2/9),                     roll_angle(90) },
+            { path_straight(base*2/5),                     roll_angle(0) },
+      })
+end
+
+function immelmann_s_turn(r, arg2, arg3, arg4)
+   local rabs = math.abs(r)
+   return make_paths("immelmann_s_turn", {
+         { path_vertical_arc(r, 180),      roll_angle(0) },
+         { path_straight(rabs),            roll_angle(180) },
+	 { path_vertical_arc(-r, 180),     roll_angle(0) },
+         { path_straight(rabs),            roll_angle(180) },
+   })
+end
+
+message: Immelmann S turn
+immelmann_s_turn 20
+
+align_box 1
+message: SquareLoop
+square_loop 20 60
+
+straight_align 30
